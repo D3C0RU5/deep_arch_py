@@ -109,3 +109,71 @@ class TestValidateLogin:
 
             with pytest.raises(TypeError, match='Login must be a string'):
                 user._User__validate_login()
+
+
+class TestPassword:
+    class TestSuccess:
+        @pytest.mark.parametrize("password", ["Abcd1234", "1Abcdefghijkl", "123456aA"])
+        def test_when_password_is_valid(self, password):
+            user = User()
+            user.password = password
+
+            try:
+                user._User__validate_password()
+            except Exception as exc:
+                assert False, f"'validate_password' raised an exception {exc}"
+
+    class TestFailure:
+        @pytest.mark.parametrize("password", [1,{},[],(), 123, {"a:1"},[1],(2,1)])
+        def test_when_is_not_string(self,password):
+            user = User()
+            user.password = password
+
+            with pytest.raises(TypeError, match='Password must be a string'):
+                user._User__validate_password()
+
+        @pytest.mark.parametrize("password", ["a", "1", "acbcd3A"])
+        def test_when_has_length_less_than_eight(self,password):
+            user = User()
+            user.password = password
+
+            with pytest.raises(ValueError, match='Invalid password.'):
+                user._User__validate_password()
+
+        @pytest.mark.parametrize("password", ['abcdefghijklmno', '12345678','ABCDEFGHIJK','1234abcd','1234ABCD'])
+        def test_when_has_no_match_regex_requirements(self,password):
+            user = User()
+            user.password = password
+
+            with pytest.raises(ValueError, match='Invalid password.'):
+                user._User__validate_password()
+
+
+class TestEmail:
+    class TestSuccess:
+        @pytest.mark.parametrize("email",["a@a.com","teste,mail@teste.com", "Valid@gmail.com"])
+        def test_when_has_valid_email(self, email):
+            user = User()
+            user.email = email
+
+            try:
+                user._User__validate_email()
+            except Exception as exc:
+                assert False, f"'validate_email' raised an exception {exc}"
+
+    class TestFailure:
+        @pytest.mark.parametrize("email", [1,{},[],(), 123, {"a:1"},[1],(2,1)])
+        def test_when_is_not_string(self,email):
+            user = User()
+            user.email = email
+
+            with pytest.raises(TypeError, match='Email must be a string'):
+                user._User__validate_email()
+
+        @pytest.mark.parametrize("email", ["any_string", "teste@", "teste@teste", "1234"])
+        def test_when_not_match_regex(self,email):
+            user = User()
+            user.email = email
+
+            with pytest.raises(ValueError, match='Invalid email address.'):
+                user._User__validate_email()
