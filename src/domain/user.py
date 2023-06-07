@@ -64,3 +64,8 @@ class User(BaseDomain):
         self.__validate_login()
         self.__validate_password()
         self.__validate_email()
+
+    def to_dict(self):
+        dict_to_return = self.__dict__.copy()
+        dict_to_return['code'] = str(self.code)
+        return dict_to_return

@@ -6,13 +6,7 @@ from src.domain import user
 class UserPostgresRepo(PostgresRepo):
     def _create_objects(self, results):
         return [
-            user.User(
-                code=q.code,
-                name=q.name,
-                login=q.login,
-                password=q.password,
-                email=q.email,
-            )
+            user.User(**q.to_dict())
             for q in results
         ]
 
@@ -23,22 +17,9 @@ class UserPostgresRepo(PostgresRepo):
         return results
 
     def create(self, user_to_insert: user.User):
-        new_user = User(
-            code=str(user_to_insert.code),
-            name=user_to_insert.name,
-            login=user_to_insert.login,
-            password=user_to_insert.password,
-            email=user_to_insert.email,
-        )
+        new_user = User(**user_to_insert.to_dict())
         with self.get_session() as session:
             session.add(new_user)
-            session.flush()
-            created_user = user.User(
-                code=new_user.code,
-                name=new_user.name,
-                login=new_user.login,
-                password=new_user.password,
-                email=new_user.email,
-            )
+            created_user = user.User(**new_user.to_dict())
 
         return created_user
