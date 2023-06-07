@@ -29,10 +29,6 @@ class TestCreate:
             email=faker.email(),
         )
 
-        created_user = repo_users.create(user_to_be_created)
+        is_user_created = repo_users.create(user_to_be_created)
 
-        assert created_user.code == user_to_be_created.code
-        assert created_user.name == user_to_be_created.name
-        assert created_user.login == user_to_be_created.login
-        assert created_user.password == user_to_be_created.password
-        assert created_user.email == user_to_be_created.email
+        assert is_user_created

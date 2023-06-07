@@ -20,6 +20,5 @@ class UserPostgresRepo(PostgresRepo):
         new_user = User(**user_to_insert.to_dict())
         with self.get_session() as session:
             session.add(new_user)
-            created_user = user.User(**new_user.to_dict())
 
-        return created_user
+        return True
