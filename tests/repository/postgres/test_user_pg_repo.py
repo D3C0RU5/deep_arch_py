@@ -1,7 +1,7 @@
 import uuid
 
 from faker import Faker
-from src.domain import user
+from domain import user
 from src.repository.postgres.user_postgres import UserPostgresRepo
 
 faker = Faker()
@@ -11,10 +11,11 @@ class TestList:
     def test_list_users(self, pg_session, pg_test_data):
         repo_users = UserPostgresRepo(testing=True)
 
-        users = repo_users.list()
+        users = repo_users.list_users()
 
         assert set([str(r.code) for r in users]) == set(
-            [r["code"] for r in pg_test_data])
+            [r["code"] for r in pg_test_data]
+        )
 
 
 class TestCreate:

@@ -1,4 +1,3 @@
 -r test.txt
-pytest
 flake8
 black

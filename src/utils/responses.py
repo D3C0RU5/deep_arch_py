@@ -1,8 +1,8 @@
 class ResponseType:
-    PARAMETERS_ERROR = 'ParametersError'
-    RESOURCES_ERROR = 'ResourcesError'
-    SYSTEM_ERROR = 'SystemError'
-    SUCCESS = 'Success'
+    PARAMETERS_ERROR = "ParametersError"
+    RESOURCES_ERROR = "ResourcesError"
+    SYSTEM_ERROR = "SystemError"
+    SUCCESS = "Success"
 
 
 class ResponseFailure:
@@ -18,10 +18,7 @@ class ResponseFailure:
 
     @property
     def value(self):
-        return {
-            "type": self.type,
-            "message": self.message
-        }
+        return {"type": self.type, "message": self.message}
 
     def __bool__(self):
         return False
@@ -36,7 +33,7 @@ class ResponseSuccess:
         return True
 
 
-def build_response_from_invalid_request(invalid_request):
+def build_invalid_response(invalid_request):
     message = "\n".join(
         [
             "{}: {}".format(err["parameter"], err["message"])
