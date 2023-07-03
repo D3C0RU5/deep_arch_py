@@ -1,2 +1,4 @@
 -r prod.txt
 Faker
+pytest
+pytest-mock
