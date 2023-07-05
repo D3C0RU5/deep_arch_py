@@ -4,13 +4,11 @@ from typing import Iterable
 from sqlalchemy import Column, Integer, String
 from app.entities.user import UserEntity
 from app.repositories.postgres import Base, PostgresRepository
-from app.repositories.postgres.base_object import BaseObject
 from app.repositories.user_interface import UserRepository
 
 
 class User(Base):
     __tablename__ = "users"
-    __metaclass__ = BaseObject
 
     id = Column(Integer, primary_key=True)
     avatar = Column(String, nullable=False)

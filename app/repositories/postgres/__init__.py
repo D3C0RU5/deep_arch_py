@@ -1,9 +1,9 @@
-from abc import ABC
+import abc
 from contextlib import contextmanager
 from typing import Optional
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base, DeclarativeMeta
 from app.entities import BaseEntity
 
 from app.repositories import BaseRepository
@@ -18,10 +18,7 @@ configuration = {
 }
 
 
-Base = declarative_base()
-
-
-class PostgresRepository(BaseRepository, ABC):
+class PostgresRepository(BaseRepository, abc.ABC):
     def __init__(self, testing=False) -> None:
         if not testing:
             connection_string = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
@@ -58,3 +55,28 @@ class PostgresRepository(BaseRepository, ABC):
             result = session.get(self.Instance, id).to_entity()
 
         return result
+
+
+class DeclarativeABCMeta(DeclarativeMeta, abc.ABCMeta):
+    pass
+
+
+class Base(declarative_base(metaclass=DeclarativeABCMeta)):
+    __abstract__ = True
+
+    @classmethod
+    @abc.abstractmethod
+    def from_dict(cls, other: dict):
+        ...
+
+    @abc.abstractmethod
+    def to_entity(self):
+        ...
+
+    def to_dict(self):
+        dict_to_return = {}
+        for k, v in self.__dict__.items():
+            if k != "_sa_instance_state":
+                dict_to_return[k] = v
+
+        return dict_to_return
