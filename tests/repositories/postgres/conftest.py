@@ -1,14 +1,17 @@
 import pytest
 import sqlalchemy
 
-from src.repository.postgres.postgres_objects import Base, User
-from tests.repository.seed import users
+from app.repositories.postgres import Base
+from app.repositories.postgres.user import User
+from tests.repositories.seed import users
 
 
 @pytest.fixture(scope="session")
 def pg_session_empty():
-    conn_str = "sqlite:////home/decorus/Lab/projects/python/me-corrige-ai/db1.db"
-    engine = sqlalchemy.create_engine(conn_str)
+    connection_string = (
+        "sqlite:////home/decorus/Lab/projects/python/deep-arch/sqlite.db"
+    )
+    engine = sqlalchemy.create_engine(connection_string)
     connection = engine.connect()
 
     Base.metadata.create_all(engine)
@@ -31,14 +34,13 @@ def pg_test_data():
 @pytest.fixture(scope="function")
 def pg_session(pg_session_empty, pg_test_data):
     for r in pg_test_data:
-        new_user = User(
-            code=r["code"],
-            name=r["name"],
-            login=r["login"],
-            password=r["password"],
-            email=r["email"],
+        pg_session_empty.add(
+            User(
+                name=r["name"],
+                avatar=r["avatar"],
+                email=r["email"],
+            )
         )
-        pg_session_empty.add(new_user)
         pg_session_empty.commit()
 
     yield pg_session_empty

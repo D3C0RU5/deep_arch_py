@@ -1,13 +1,28 @@
+from abc import ABC
 from contextlib import contextmanager
+from typing import Optional
+
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
+from app.entities import BaseEntity
 
-from src.repository.postgres.config import configuration
-from src.repository.postgres.postgres_objects import Base
+from app.repositories import BaseRepository
 
 
-class PostgresRepo:
-    def __init__(self, testing=False):
+configuration = {
+    "POSTGRES_USER": "pguser",
+    "POSTGRES_PASSWORD": "postgres",
+    "POSTGRES_HOSTNAME": "localhost",
+    "POSTGRES_PORT": "5432",
+    "APPLICATION_DB": "db-postgres",
+}
+
+
+Base = declarative_base()
+
+
+class PostgresRepository(BaseRepository, ABC):
+    def __init__(self, testing=False) -> None:
         if not testing:
             connection_string = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
                 configuration["POSTGRES_USER"],
@@ -17,7 +32,9 @@ class PostgresRepo:
                 configuration["APPLICATION_DB"],
             )
         else:
-            connection_string = "sqlite:////home/decorus/Lab/projects/python/me-corrige-ai/db1.db"
+            connection_string = (
+                "sqlite:////home/decorus/Lab/projects/python/deep-arch/sqlite.db"
+            )
         self.engine = create_engine(connection_string)
 
         Base.metadata.create_all(self.engine)
@@ -35,3 +52,9 @@ class PostgresRepo:
             raise
         finally:
             session.close()
+
+    def get(self, id: str) -> Optional[BaseEntity]:
+        with self.get_session() as session:
+            result = session.get(self.Instance, id).to_entity()
+
+        return result
