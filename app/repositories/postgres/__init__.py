@@ -55,6 +55,6 @@ class PostgresRepository(BaseRepository, ABC):
 
     def get(self, id: str) -> Optional[BaseEntity]:
         with self.get_session() as session:
-            result = session.query(self.Instance).get(id).to_entity()
+            result = session.get(self.Instance, id).to_entity()
 
         return result

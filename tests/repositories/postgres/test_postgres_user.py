@@ -1,11 +1,13 @@
+import pytest
 from app.repositories.postgres.user import UserPostgresRepository
 
 
-def test_get(pg_session, pg_test_data):
+@pytest.mark.parametrize("id, index", [(1, 0), (2, 1)])
+def test_get(pg_session, pg_test_data, id, index):
     repo = UserPostgresRepository(testing=True)
 
-    user = repo.get(id=1)
+    user = repo.get(id=id)
 
-    assert user.to_dict()["name"] == pg_test_data[0]["name"]
-    assert user.to_dict()["email"] == pg_test_data[0]["email"]
-    assert user.to_dict()["avatar"] == pg_test_data[0]["avatar"]
+    assert user.name == pg_test_data[index]["name"]
+    assert user.email == pg_test_data[index]["email"]
+    assert user.avatar == pg_test_data[index]["avatar"]

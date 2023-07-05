@@ -1,14 +1,16 @@
 from abc import ABC
-from typing import Iterable, Optional
+from typing import Iterable
 
 from sqlalchemy import Column, Integer, String
 from app.entities.user import UserEntity
 from app.repositories.postgres import Base, PostgresRepository
+from app.repositories.postgres.base_object import BaseObject
 from app.repositories.user_interface import UserRepository
 
 
 class User(Base):
     __tablename__ = "users"
+    __metaclass__ = BaseObject
 
     id = Column(Integer, primary_key=True)
     avatar = Column(String, nullable=False)
@@ -24,14 +26,6 @@ class User(Base):
             email=other["email"],
         )
 
-    def to_dict(self):
-        dict_to_return = {}
-        for k, v in self.__dict__.items():
-            if k != "_sa_instance_state" and k != "id":
-                dict_to_return[k] = v
-
-        return dict_to_return
-
     def to_entity(self):
         return UserEntity(
             id=self.id,
@@ -46,13 +40,6 @@ class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
         self.Instance = User
         self.Entity = UserEntity
         super().__init__(testing)
-
-    # def get(self, id: str) -> Optional[UserEntity]:
-    #     pass
-    #     # with self.get_session() as session:
-    #     #     result = session.query(User).filter(User.id == id).first()
-
-    #     # return UserEntity.from_dict(result.to_dict())
 
     def list(self) -> Iterable[UserEntity]:
         pass
