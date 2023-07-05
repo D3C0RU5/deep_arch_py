@@ -22,6 +22,3 @@ class MemoryRepository(BaseRepository, ABC):
     def remove(self, id: str) -> bool:
         self.data = list(filter(lambda e: e.id != id, self.data))
         return True
-
-    def commit(self) -> None:
-        ...

@@ -4,18 +4,6 @@ from typing import Iterable, Optional
 from app.entities import BaseEntity
 
 
-class ContextManagerRepository(ABC):
-    @abstractmethod
-    def commit(self):
-        ...
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args, **kwargs) -> None:
-        self.commit()
-
-
 class BaseReadOnlyRepository(ABC):
     @abstractmethod
     def get(self, id: str) -> Optional[BaseEntity]:
@@ -26,7 +14,7 @@ class BaseReadOnlyRepository(ABC):
         ...
 
 
-class BaseWriteOnlyRepository(ContextManagerRepository):
+class BaseWriteOnlyRepository(ABC):
     @abstractmethod
     def add(self, other: BaseEntity) -> BaseEntity:
         ...
