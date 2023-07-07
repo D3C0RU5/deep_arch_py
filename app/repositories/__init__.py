@@ -20,7 +20,7 @@ class BaseWriteOnlyRepository(ABC):
         ...
 
     @abstractmethod
-    def remove(self, id: str) -> bool:
+    def delete(self, id: str) -> bool:
         ...
 
 

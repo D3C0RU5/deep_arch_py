@@ -39,3 +39,17 @@ def test_add(pg_session, pg_test_data):
     assert new_user.name == user.name
     assert new_user.email == user.email
     assert new_user.avatar == user.avatar
+
+
+class TestDelete:
+    def test_success_when_id_exists(self, pg_session, pg_test_data):
+        repo = UserPostgresRepository(testing=True)
+        deleted = repo.delete(2)
+
+        assert deleted is True
+
+    def test_success_when_not_exists(self, pg_session, pg_test_data):
+        repo = UserPostgresRepository(testing=True)
+        deleted = repo.delete(99)
+
+        assert deleted is False

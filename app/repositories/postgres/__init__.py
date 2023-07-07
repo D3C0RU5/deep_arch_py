@@ -75,3 +75,16 @@ class PostgresRepository(BaseRepository, ABC):
             result = new_instance.to_entity()
 
         return result
+
+    def delete(self, id: str) -> bool:
+        entity_exists = None
+
+        with self.get_session() as session:
+            db_register = session.get(self.Instance, id)
+            if db_register:
+                session.delete(db_register)
+                entity_exists = True
+            else:
+                entity_exists = False
+
+        return entity_exists

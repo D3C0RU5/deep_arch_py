@@ -51,8 +51,8 @@ class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
         def add(self, other: UserEntity) -> UserEntity:
             ...
 
-    def remove(self, id: str) -> bool:
-        pass
+        def delete(self, id: str) -> bool:
+            ...
 
     def get_by_name(self, name: str) -> UserEntity:
         pass
