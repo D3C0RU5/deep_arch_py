@@ -1,10 +1,10 @@
 from abc import ABC
-from typing import Iterable, List, Optional
+from typing import List, Optional
 import typing
 
 from sqlalchemy import Column, Integer, String
 from app.entities.user import UserEntity
-from app.repositories.postgres import Base, PostgresRepository
+from app.repositories.postgres import PostgresRepository, Base
 from app.repositories.user_interface import UserRepository
 
 
@@ -36,9 +36,9 @@ class User(Base):
 
 class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
     def __init__(self, testing=False):
+        super().__init__(testing)
         self.Instance = User
         self.Entity = UserEntity
-        super().__init__(testing)
 
     if typing.TYPE_CHECKING:
 
@@ -48,11 +48,8 @@ class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
         def list(self) -> List[UserEntity]:
             ...
 
-    def add(self, other: UserEntity):
-        pass
-        # new_register = User()
-        # with self.get_session() as session:
-        #     results = session.query(User).all()
+        def add(self, other: UserEntity) -> UserEntity:
+            ...
 
     def remove(self, id: str) -> bool:
         pass

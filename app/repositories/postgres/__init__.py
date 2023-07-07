@@ -1,12 +1,13 @@
-import abc
+from abc import ABC
 from contextlib import contextmanager
-from typing import Optional
+from typing import List, Optional
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base, DeclarativeMeta
+from sqlalchemy.orm import sessionmaker
 from app.entities import BaseEntity
 
 from app.repositories import BaseRepository
+from app.repositories.postgres.base import Base
 
 
 configuration = {
@@ -18,8 +19,10 @@ configuration = {
 }
 
 
-class PostgresRepository(BaseRepository, abc.ABC):
+class PostgresRepository(BaseRepository, ABC):
     def __init__(self, testing=False) -> None:
+        self.Instance: Base
+
         if not testing:
             connection_string = "postgresql+psycopg2://{}:{}@{}:{}/{}".format(
                 configuration["POSTGRES_USER"],
@@ -56,7 +59,7 @@ class PostgresRepository(BaseRepository, abc.ABC):
 
         return result
 
-    def list(self) -> Optional[BaseEntity]:
+    def list(self) -> List[BaseEntity]:
         with self.get_session() as session:
             results = [
                 result.to_entity() for result in session.query(self.Instance).all()
@@ -64,27 +67,11 @@ class PostgresRepository(BaseRepository, abc.ABC):
 
         return results
 
+    def add(self, other: BaseEntity) -> BaseEntity:
+        new_instance: Base = self.Instance.from_dict(other.to_dict())
+        with self.get_session() as session:
+            session.add(new_instance)
+            session.flush()
+            result = new_instance.to_entity()
 
-class DeclarativeABCMeta(DeclarativeMeta, abc.ABCMeta):
-    pass
-
-
-class Base(declarative_base(metaclass=DeclarativeABCMeta)):
-    __abstract__ = True
-
-    @classmethod
-    @abc.abstractmethod
-    def from_dict(cls, other: dict):
-        ...
-
-    @abc.abstractmethod
-    def to_entity(self):
-        ...
-
-    def to_dict(self):
-        dict_to_return = {}
-        for k, v in self.__dict__.items():
-            if k != "_sa_instance_state":
-                dict_to_return[k] = v
-
-        return dict_to_return
+        return result

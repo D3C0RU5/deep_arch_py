@@ -9,7 +9,7 @@ class BaseEntity(metaclass=ABCMeta):
 
     @classmethod
     @abstractmethod
-    def from_dict(cls, other:dict):
+    def from_dict(cls, other: dict):
         ...
 
     @abstractmethod

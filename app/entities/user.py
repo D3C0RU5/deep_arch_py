@@ -4,7 +4,7 @@ from typing import Optional, TypedDict
 from app.entities import BaseEntity
 
 
-class User(TypedDict):
+class UserType(TypedDict):
     id: Optional[str]
     name: str
     email: str
@@ -26,7 +26,7 @@ class UserEntity(BaseEntity):
             avatar=other["avatar"],
         )
 
-    def to_dict(self) -> User:
+    def to_dict(self) -> UserType:
         return {
             "id": self.id,
             "name": self.name,
