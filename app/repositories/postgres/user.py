@@ -1,5 +1,6 @@
 from abc import ABC
-from typing import Iterable
+from typing import Iterable, Optional
+import typing
 
 from sqlalchemy import Column, Integer, String
 from app.entities.user import UserEntity
@@ -38,6 +39,14 @@ class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
         self.Instance = User
         self.Entity = UserEntity
         super().__init__(testing)
+
+    if typing.TYPE_CHECKING:
+
+        def get(self, id: str) -> Optional[UserEntity]:
+            ...
+
+    # def get(self, id: str) -> Optional[UserEntity]:
+    #     return super().get(id)
 
     def list(self) -> Iterable[UserEntity]:
         pass
