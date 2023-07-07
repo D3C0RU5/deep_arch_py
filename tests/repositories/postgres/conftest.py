@@ -31,8 +31,16 @@ def pg_test_data():
     return users
 
 
+def cleaning_db(session):
+    session.query(User).delete()
+    session.commit()
+
+
 @pytest.fixture(scope="function")
 def pg_session(pg_session_empty, pg_test_data):
+    # Cleaning database has garbage
+    cleaning_db(pg_session_empty)
+
     for r in pg_test_data:
         pg_session_empty.add(
             User(
@@ -45,5 +53,4 @@ def pg_session(pg_session_empty, pg_test_data):
 
     yield pg_session_empty
 
-    pg_session_empty.query(User).delete()
-    pg_session_empty.commit()
+    cleaning_db(pg_session_empty)

@@ -56,6 +56,14 @@ class PostgresRepository(BaseRepository, abc.ABC):
 
         return result
 
+    def list(self) -> Optional[BaseEntity]:
+        with self.get_session() as session:
+            results = [
+                result.to_entity() for result in session.query(self.Instance).all()
+            ]
+
+        return results
+
 
 class DeclarativeABCMeta(DeclarativeMeta, abc.ABCMeta):
     pass

@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Iterable, Optional
+from typing import Iterable, List, Optional
 import typing
 
 from sqlalchemy import Column, Integer, String
@@ -45,15 +45,8 @@ class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
         def get(self, id: str) -> Optional[UserEntity]:
             ...
 
-    # def get(self, id: str) -> Optional[UserEntity]:
-    #     return super().get(id)
-
-    def list(self) -> Iterable[UserEntity]:
-        pass
-        # with self.get_session() as session:
-        #     results = session.query(User).all()
-
-        # return [UserEntity.from_dict(item.to_dict()) for item in results]
+        def list(self) -> List[UserEntity]:
+            ...
 
     def add(self, other: UserEntity):
         pass
