@@ -4,10 +4,10 @@ from typing import List, Optional
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.entities import BaseEntity
+from app.adapters.repositories.postgresql.base import Base
+from app.core.entities import BaseEntity
 
-from app.repositories import BaseRepository
-from app.repositories.postgres.base import Base
+from app.core.repositories import BaseRepositoryInterface
 
 
 configuration = {
@@ -19,7 +19,7 @@ configuration = {
 }
 
 
-class PostgresRepository(BaseRepository, ABC):
+class PostgresRepository(BaseRepositoryInterface, ABC):
     def __init__(self, testing=False) -> None:
         self.Instance: Base
 

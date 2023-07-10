@@ -1,9 +1,9 @@
 import pytest
 import sqlalchemy
+from app.adapters.repositories.postgresql.base import Base
+from app.adapters.repositories.postgresql.user import User
 
-from app.repositories.postgres import Base
-from app.repositories.postgres.user import User
-from tests.repositories.seed import users
+from tests.adapters.repositories.seed import users
 
 
 @pytest.fixture(scope="session")

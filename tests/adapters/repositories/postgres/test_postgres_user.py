@@ -1,6 +1,7 @@
 from faker import Faker
-from app.entities.user import UserEntity
-from app.repositories.postgres.user import UserPostgresRepository
+
+from app.adapters.repositories.postgresql.user import UserPostgresRepository
+from app.core.entities.user import UserEntity
 
 faker = Faker()
 

@@ -1,11 +1,13 @@
 from abc import ABC
 from typing import List, Optional
 import typing
-
 from sqlalchemy import Column, Integer, String
-from app.entities.user import UserEntity
-from app.repositories.postgres import PostgresRepository, Base
-from app.repositories.user_interface import UserRepository
+
+from app.adapters.repositories.postgresql import PostgresRepository
+from app.adapters.repositories.postgresql.base import Base
+
+from app.core.entities.user import UserEntity
+from app.core.repositories.user_interface import UserRepositoryInterface
 
 
 class User(Base):
@@ -34,7 +36,7 @@ class User(Base):
         )
 
 
-class UserPostgresRepository(PostgresRepository, UserRepository, ABC):
+class UserPostgresRepository(PostgresRepository, UserRepositoryInterface, ABC):
     def __init__(self, testing=False):
         super().__init__(testing)
         self.Instance = User

@@ -1,8 +1,9 @@
 from random import randrange
 from faker import Faker
 import pytest
-from app.entities.user import UserEntity
-from app.repositories.memory.user import UserMemoryRepository
+from app.adapters.repositories.memory.user import UserMemoryRepository
+
+from app.core.entities.user import UserEntity
 
 faker = Faker()
 

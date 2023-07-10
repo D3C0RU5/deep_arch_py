@@ -1,10 +1,11 @@
 from abc import ABC
 from typing import Iterable, Optional
-from app.entities import BaseEntity
-from app.repositories import BaseRepository
+
+from app.core.entities import BaseEntity
+from app.core.repositories import BaseRepositoryInterface
 
 
-class MemoryRepository(BaseRepository, ABC):
+class MemoryRepository(BaseRepositoryInterface, ABC):
     def __init__(self) -> None:
         self.data: list[BaseEntity] = []
 
@@ -19,6 +20,6 @@ class MemoryRepository(BaseRepository, ABC):
         other.id = str(len(self.data))
         return other
 
-    def remove(self, id: str) -> bool:
+    def delete(self, id: str) -> bool:
         self.data = list(filter(lambda e: e.id != id, self.data))
         return True

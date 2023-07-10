@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional, TypedDict
 
-from app.entities import BaseEntity
+from app.core.entities import BaseEntity
 
 
 class UserType(TypedDict):

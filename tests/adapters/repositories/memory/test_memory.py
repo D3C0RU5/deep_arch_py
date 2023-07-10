@@ -3,8 +3,9 @@ from random import randrange
 from typing import Optional, TypedDict
 from faker import Faker
 import pytest
-from app.entities import BaseEntity
-from app.repositories.memory import MemoryRepository
+from app.adapters.repositories.memory import MemoryRepository
+
+from app.core.entities import BaseEntity
 
 faker = Faker()
 
@@ -91,14 +92,14 @@ class TestMemoryRepository:
             assert repository.data[-1] == dummy_entity
             assert len(repository.data) == initial_data_len + 1
 
-    class TestRemove:
-        def test_remove_item(self, data: list[BaseEntity]):
+    class TestDelete:
+        def test_delete_item(self, data: list[BaseEntity]):
             repository = MemoryRepository()
             repository.data = data
             initial_data_len = len(data)
             last_item = data[-1]
 
-            result = repository.remove(last_item.id)
+            result = repository.delete(last_item.id)
 
             assert result is True
             assert len(repository.data) is initial_data_len - 1
