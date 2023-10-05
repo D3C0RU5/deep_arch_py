@@ -14,9 +14,9 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
-    password = Column(String, nullable=False)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
+    password = Column(String, nullable=False)
 
     @classmethod
     def from_dict(cls, other: dict) -> User:

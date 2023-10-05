@@ -1,22 +1,13 @@
 from abc import ABCMeta, abstractmethod
-from dataclasses import dataclass
 from typing import Optional
 
+from pydantic import BaseModel, validator
 
-@dataclass
-class BaseEntity(metaclass=ABCMeta):
-    id: Optional[str]
 
-    def __post_init__(self):
-        # Validate id
-        if not isinstance(self.id, int) and self.id != None:
-            raise TypeError("Id should be a int")
+class BaseEntity(BaseModel, metaclass=ABCMeta):
+    id: Optional[int]
 
-    @classmethod
-    @abstractmethod
-    def from_dict(cls, other: dict):
-        ...
-
-    @abstractmethod
-    def to_dict(self):
-        ...
+    @validator("id")
+    def id_validation(cls, v):
+        if not isinstance(v, int) and v != None:
+            raise TypeError("Id should not be a int")
