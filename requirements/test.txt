@@ -2,3 +2,4 @@
 Faker
 pytest
 pytest-mock
+factory_boy

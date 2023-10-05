@@ -1,8 +1,8 @@
+from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 import typing
 from sqlalchemy import Column, Integer, String
-
 from app.adapters.repositories.postgresql import PostgresRepository
 from app.adapters.repositories.postgresql.base import Base
 
@@ -14,15 +14,15 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
-    avatar = Column(String, nullable=False)
+    password = Column(String, nullable=False)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
 
     @classmethod
-    def from_dict(cls, other: dict):
+    def from_dict(cls, other: dict) -> User:
         return cls(
             id=other.get("id"),
-            avatar=other["avatar"],
+            password=other["password"],
             name=other["name"],
             email=other["email"],
         )
@@ -32,7 +32,7 @@ class User(Base):
             id=self.id,
             name=self.name,
             email=self.email,
-            avatar=self.avatar,
+            password=self.password,
         )
 
 
@@ -57,4 +57,9 @@ class UserPostgresRepository(PostgresRepository, UserRepositoryInterface, ABC):
             ...
 
     def get_by_name(self, name: str) -> UserEntity:
-        pass
+        with self.get_session() as session:
+            result = (
+                session.query(self.Entity).filter(User.name == name).first().to_entity()
+            )
+
+        return result

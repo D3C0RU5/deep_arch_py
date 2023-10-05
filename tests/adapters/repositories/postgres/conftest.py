@@ -1,3 +1,4 @@
+from faker import Faker
 import pytest
 import sqlalchemy
 from app.adapters.repositories.postgresql.base import Base
@@ -45,7 +46,7 @@ def pg_session(pg_session_empty, pg_test_data):
         pg_session_empty.add(
             User(
                 name=r["name"],
-                avatar=r["avatar"],
+                password=r["password"],
                 email=r["email"],
             )
         )
@@ -54,3 +55,8 @@ def pg_session(pg_session_empty, pg_test_data):
     yield pg_session_empty
 
     cleaning_db(pg_session_empty)
+
+
+@pytest.fixture
+def faker():
+    return Faker()

@@ -1,29 +1,15 @@
 from random import randrange
-from faker import Faker
 import pytest
 from app.adapters.repositories.memory.user import UserMemoryRepository
 
 from app.core.entities.user import UserEntity
 
-faker = Faker()
-
-
-def create_entity(id: int):
-    return UserEntity.from_dict(
-        {
-            "id": id,
-            "name": faker.name(),
-            "email": faker.email(),
-            "avatar": faker.file_path(category="image"),
-        }
-    )
-
 
 @pytest.fixture
-def data() -> list[UserEntity]:
+def data(user_factory) -> list[UserEntity]:
     data: list[UserEntity] = []
-    for i in range(randrange(1, 10)):
-        entity = create_entity(i + 1)
+    for i in range(1, 10):
+        entity = user_factory()
         data.append(entity)
 
     return data

@@ -1,17 +1,17 @@
 users = [
     {
         "name": "Joseph C. Puente",
-        "avatar": "https://i.ytimg.com/Leatice.png",
+        "password": "secretpassword",
         "email": "JosephCPuente@jourrapide.com",
     },
     {
         "name": "Wesley O. Servin",
-        "avatar": "https://i.ytimg.com/Mariust.png",
+        "password": "secretpassword",
         "email": "WesleyOServin@teleworm.us",
     },
     {
         "name": "John L. Romano",
-        "avatar": "https://i.ytimg.com/Thork2002.png",
+        "password": "secretpassword",
         "email": "JohnLRomano@teleworm.us",
     },
 ]
