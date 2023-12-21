@@ -1,5 +1,0 @@
--r prod.txt
-Faker
-pytest
-pytest-mock
-factory_boy

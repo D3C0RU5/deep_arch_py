@@ -1,6 +1,0 @@
--r test.txt
-pytest
-flake8
-black
-fastapi
-pydantic[email]
