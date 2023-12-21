@@ -19,6 +19,12 @@
   "homepage": "https://github.com/D3C0RU5/deep_arch_py#readme",
   "devDependencies": {
     "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-standard-with-typescript": "^43.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
     "git-commit-msg-linter": "^5.0.6",
     "typescript": "^5.3.3"
   }
