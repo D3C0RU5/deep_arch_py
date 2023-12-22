@@ -1,10 +1,15 @@
 {
   "extends": "standard-with-typescript",
   "parserOptions": {
-    "project":"./tsconfig.json"
+    "project": "./tsconfig.json"
   },
-  "rules":{
+  "rules": {
     "@typescript-eslint/strict-boolean-expressions": "off",
     "@typescript-eslint/no-unsafe-argument": "off"
-  }
+  },
+  "overrides": [
+    {
+      "excludedFiles": "./*.js"
+    }
+  ]
 }

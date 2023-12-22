@@ -2,6 +2,6 @@ module.exports = {
   clearMocks: true,
   collectCoverage: false,
   coverageDirectory: 'coverage',
-  coverageProvider: 'Babel',
+  coverageProvider: 'v8',
   preset: 'ts-jest'
 }
