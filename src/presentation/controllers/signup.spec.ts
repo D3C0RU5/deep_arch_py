@@ -120,7 +120,7 @@ describe('SignUp Controller', () => {
       }
     }
 
-    // Assert(Mock)
+    // Arrange(Mock)
     jest.spyOn(emailValidatorStub, 'isValid').mockReturnValueOnce(false)
 
     // Act
@@ -143,7 +143,7 @@ describe('SignUp Controller', () => {
       }
     }
 
-    // Assert(Mock)
+    // Arrange(Mock)
     const isValidSpy = jest.spyOn(emailValidatorStub, 'isValid')
 
     // Act
@@ -164,7 +164,7 @@ describe('SignUp Controller', () => {
       }
     }
 
-    // Assert(Mock)
+    // Arrange(Mock)
     const emailValidatorStub = makeEmailValidatorWithError()
 
     // Act
