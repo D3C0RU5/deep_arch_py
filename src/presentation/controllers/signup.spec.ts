@@ -22,6 +22,7 @@ const makeSut = (): SutTypes => {
 
 describe('SignUp Controller', () => {
   test('Return 400 if no name is provided', () => {
+    // Arrange
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -30,13 +31,17 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password'
       }
     }
+
+    // Act
     const httpResponse = sut.handle(httpRequest)
 
+    // Assert
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('name'))
   })
 
   test('Return 400 if no email is provided', () => {
+    // Arrange
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -45,13 +50,17 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password'
       }
     }
+
+    // Act
     const httpResponse = sut.handle(httpRequest)
 
+    // Assert
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
   test('Return 400 if no password is provided', () => {
+    // Arrange
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -60,13 +69,17 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password'
       }
     }
+
+    // Act
     const httpResponse = sut.handle(httpRequest)
 
+    // Assert
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('password'))
   })
 
   test('Return 400 if no password confirmation is provided', () => {
+    // Arrange
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -75,8 +88,11 @@ describe('SignUp Controller', () => {
         password: 'any_password'
       }
     }
+
+    // Act
     const httpResponse = sut.handle(httpRequest)
 
+    // Assert
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
   })
