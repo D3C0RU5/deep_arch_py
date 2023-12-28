@@ -5,6 +5,7 @@ module.exports = {
   clearMocks: true,
   collectCoverage: false,
   coverageDirectory: 'coverage',
+  preset: '@shelf/jest-mongodb',
   coverageProvider: 'v8',
-  preset: '@shelf/jest-mongodb'
+  watchPathIgnorePatterns: ['globalConfig']
 }
