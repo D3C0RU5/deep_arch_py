@@ -22,7 +22,8 @@ export class DbAddAccount implements AddAccount {
         {},
         accountData,
         { password: hashedPassword }
-      ))
+      )
+    )
     return newAccount
   }
 }
